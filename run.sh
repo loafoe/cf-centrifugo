@@ -2,10 +2,16 @@
 
 set -e
 
-if [ "$SECRET" == "" ]; then
-    echo "SECRET not set. Exiting.."
+if [ "$HMAC_SECRET_KEY" == "" ]; then
+    echo "HMAC_SECRET_KEY not set. Exiting.."
     exit 1
 fi
+
+if [ "$API_KEY" == "" ]; then
+    echo "API_KEY not set. Exiting.."
+    exit 1
+fi
+
 
 if [ "$ADMIN_PASSWORD" == "" ]; then
     echo "ADMIN_PASSWORD not set. Exiting.."
@@ -23,7 +29,8 @@ fi
 
 cat <<EOF > config.json
 {
-  "secret": "$SECRET",
+  "token_hmac_secret_key": "$HMAC_SECRET_KEY",
+  "api_key": "$API_KEY",
   "admin": true,
   "admin_password": "$ADMIN_PASSWORD",
   "admin_secret": "$ADMIN_SECRET",

@@ -1,0 +1,11 @@
+---
+applications:
+- name: centrifugo
+  docker:
+    image: loafoe/cf-centrifugo:latest
+  env:
+    HMAC_SECRET_KEY: "z1dGHTHSFGH9"
+    API_KEY: "QXDjUqFBmSk1"
+    ADMIN_PASSWORD: "Jee5WoE2M5io"
+    ADMIN_SECRET: "6aS7Ev5rgBrJ"
+  memory: 128M
