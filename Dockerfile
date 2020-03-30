@@ -1,6 +1,5 @@
 FROM alpine:latest AS builder
-ENV CENTRIFUGO_VERSION 2.1.0
-ENV CENTRIFUGO_CHECKSUM 919d30010b8c3903489ad667f8d233c755b54c04b519be4441a639460cc25414
+ENV CENTRIFUGO_VERSION 2.4.0
 
 WORKDIR /build
 RUN apk update \
@@ -13,10 +12,10 @@ RUN curl -L -Os https://github.com/centrifugal/centrifugo/releases/download/v${C
 
 
 # Verify the signature file is untampered.
-RUN echo ${CENTRIFUGO_CHECKSUM}"  "centrifugo_${CENTRIFUGO_VERSION}_linux_amd64.tar.gz > centrifugo_shasum
-RUN cat centrifugo_shasum
-RUN ls -l
-RUN cat centrifugo_shasum|sha256sum -c
+RUN curl -L -Os https://github.com/centrifugal/centrifugo/releases/download/v${CENTRIFUGO_VERSION}/centrifugo_${CENTRIFUGO_VERSION}_checksums.txt
+RUN CENTRIFUGO_CHECKSUM=$(cat centrifugo_${CENTRIFUGO_VERSION}_checksums.txt |grep linux_amd64|cut -f 1 -d ' ') && \
+    echo ${CENTRIFUGO_CHECKSUM}"  "centrifugo_${CENTRIFUGO_VERSION}_linux_amd64.tar.gz > centrifugo_shasum && \
+    cat centrifugo_shasum|sha256sum -c
 RUN tar xvf centrifugo_${CENTRIFUGO_VERSION}_linux_amd64.tar.gz
 
 FROM alpine:latest 

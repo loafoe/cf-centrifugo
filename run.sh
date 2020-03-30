@@ -17,6 +17,10 @@ if [ "$ADMIN_SECRET" == "" ]; then
     exit 1
 fi
 
+if [ -z $PORT ]; then
+   PORT=8080
+fi
+
 cat <<EOF > config.json
 {
   "secret": "$SECRET",
@@ -42,4 +46,4 @@ EOF
 
 echo "#### Starting Centrifugo..."
 
-./centrifugo -p $PORT --web --admin --config=config.json
+./centrifugo -p $PORT --admin --config=config.json
